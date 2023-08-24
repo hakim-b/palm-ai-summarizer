@@ -9,15 +9,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Textarea } from "@/components/ui/textarea";
 
 function Home() {
   const { setTheme } = useTheme();
 
   return (
     <>
-      <div className="flex justify-between shadow-md p-6">
+      <div className="flex justify-between p-6 border">
         <h1 className="text-4xl font-bold flex">
-          <Palmtree className="h-10 w-10"/>
+          <Palmtree className="h-10 w-10" />
           Summarizer
         </h1>
         <DropdownMenu>
@@ -40,6 +41,21 @@ function Home() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+
+      <div className="flex justify-center">
+        <div className="mt-12 rounded-lg flex border w-fit">
+          <div className="relative">
+            <Textarea
+              placeholder="Enter or paste your text or press 'Summarize'"
+              rows={25}
+              cols={60}
+            />
+          </div>
+          <div className="w-[590px] p-5">
+            <p></p>
+          </div>
+        </div>
       </div>
     </>
   );
