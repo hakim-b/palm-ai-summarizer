@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -70,7 +71,7 @@ function Home() {
       <div className="flex justify-center">
         <div className="mt-12 rounded-lg flex border w-fit">
           <Form {...form}>
-            <form className="relative" onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="text"
@@ -82,18 +83,23 @@ function Home() {
                         rows={25}
                         cols={60}
                         {...field}
+                        className="border-none outline-none focus:border-transparent"
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="p-2" />
                   </FormItem>
                 )}
               />
-              <div className="flex justify-between">
-                <Button variant="ghost" type="button">
+              <div className="flex justify-between mt-5">
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className="flex items-center justify-center"
+                >
                   <Label htmlFor="wordDoc">
-                    <span className="flex">
-                      <UploadCloud color="#1c9b4d" className="h-6 w-6" /> Upload
-                      Doc
+                    <span className="flex items-center">
+                      <UploadCloud color="#1c9b4d" className="h-6 w-6" /> &nbsp;
+                      Upload Doc
                     </span>
                   </Label>
                   <Input id="wordDoc" type="file" className="hidden" />
@@ -102,7 +108,7 @@ function Home() {
               </div>
             </form>
           </Form>
-
+          <Separator orientation="vertical" />
           <div className="w-[590px] p-5">
             <p></p>
           </div>
