@@ -23,6 +23,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { TypeAnimation } from "react-type-animation";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -83,7 +84,7 @@ function Home() {
                         rows={25}
                         cols={60}
                         {...field}
-                        className="border-none outline-none focus:border-transparent"
+                        className="border-none outline-none resize-none"
                       />
                     </FormControl>
                     <FormMessage className="p-2" />
@@ -110,7 +111,12 @@ function Home() {
           </Form>
           <Separator orientation="vertical" />
           <div className="w-[590px] p-5">
-            <p></p>
+            <TypeAnimation
+              sequence={["Hello World", 2000]}
+              wrapper="p"
+              cursor={true}
+              className="p-2"
+            />
           </div>
         </div>
       </div>
