@@ -84,7 +84,7 @@ function Home() {
                         rows={25}
                         cols={60}
                         {...field}
-                        className="border-none outline-none resize-none"
+                        className="border-none outline-none resize-none p-8"
                       />
                     </FormControl>
                     <FormMessage className="p-2" />
@@ -105,7 +105,7 @@ function Home() {
                   </Label>
                   <Input id="wordDoc" type="file" className="hidden" />
                 </Button>
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Summarize</Button>
               </div>
             </form>
           </Form>
