@@ -42,7 +42,7 @@ function Home() {
 
   return (
     <>
-      <div className="flex justify-between p-6 border">
+      <div className="flex justify-between p-6 border shadow-sm">
         <h1 className="text-4xl font-bold flex">
           <Palmtree className="h-10 w-10" color="#1c9b4d" />
           Summarizer
@@ -70,7 +70,7 @@ function Home() {
       </div>
 
       <div className="flex justify-center">
-        <div className="mt-12 rounded-lg flex border w-fit">
+        <div className="mt-12 rounded-lg flex border w-fit shadow-2xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
