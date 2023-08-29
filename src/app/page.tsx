@@ -23,7 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { TypeAnimation } from "react-type-animation";
 import { ChangeEvent, useState } from "react";
-import { If } from "react-haiku";
+import { If, Show } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
@@ -147,7 +147,7 @@ function Home() {
               </div>
 
               <div className="flex justify-between mt-5">
-                <Button
+                {/* <Button
                   variant="ghost"
                   type="button"
                   className="flex items-center justify-center"
@@ -162,11 +162,38 @@ function Home() {
                     id="wordDoc"
                     type="file"
                     className="hidden"
-                    accept=".docx"
+                    accept=".txt, text/plain, .doc, .docx, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     onChange={handleFileChange}
                   />
-                </Button>
-                <span className="p-3">{wordCount(newText)} Words</span>
+                </Button> */}
+
+                <Show>
+                  <Show.When isTrue={!form.watch("text")}>
+                    <Button
+                      variant="ghost"
+                      type="button"
+                      className="flex items-center justify-center"
+                    >
+                      <Label htmlFor="wordDoc">
+                        <span className="flex items-center">
+                          <UploadCloud color="#1c9b4d" className="h-6 w-6" />{" "}
+                          &nbsp; Upload Doc
+                        </span>
+                      </Label>
+                      <Input
+                        id="wordDoc"
+                        type="file"
+                        className="hidden"
+                        accept=".txt, text/plain, .doc, .docx, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        onChange={handleFileChange}
+                      />
+                    </Button>{" "}
+                  </Show.When>
+                  <Show.Else>
+                    <span className="p-3">{wordCount(newText)} Words</span>
+                  </Show.Else>
+                </Show>
+
                 <Button type="submit">Summarize</Button>
               </div>
             </form>
