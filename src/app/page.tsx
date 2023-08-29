@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Palmtree, Sun } from "lucide-react";
+import { Moon, Palmtree, Sun, Clipboard, UploadCloud } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +23,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { TypeAnimation } from "react-type-animation";
 import { ChangeEvent, useState } from "react";
+import { If } from "react-haiku";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import mammoth from "mammoth";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -55,6 +59,17 @@ function Home() {
     const value = e.target.value;
     setNewText(value);
     form.setValue("text", value); // Update form value
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const result = await mammoth.extractRawText({
+        arrayBuffer: await file.arrayBuffer(),
+      });
+      setNewText(result.value);
+      form.setValue("text", result.value);
+    }
   };
 
   return (
@@ -90,27 +105,67 @@ function Home() {
         <div className="mt-12 rounded-lg flex border w-fit shadow-2xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="text"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter or paste your text or press 'Summarize'"
-                        rows={25}
-                        cols={60}
-                        {...field}
-                        className="border-none outline-none resize-none p-8"
-                        value={newText}
-                        onChange={handleTextareaChange}
-                      />
-                    </FormControl>
-                    <FormMessage className="p-2" />
-                  </FormItem>
-                )}
-              />
+              <div className="relative">
+                <FormField
+                  control={form.control}
+                  name="text"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Enter or paste your text or press 'Summarize'"
+                          rows={25}
+                          cols={60}
+                          {...field}
+                          className="border-none outline-none resize-none p-8"
+                          value={newText}
+                          onChange={handleTextareaChange}
+                        />
+                      </FormControl>
+                      <FormMessage className="p-2" />
+                    </FormItem>
+                  )}
+                />
+                <If isTrue={!form.watch("text")}>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <Button
+                      variant={"outline"}
+                      type="button"
+                      className="py-8 px-3"
+                      onClick={() => {
+                        navigator.clipboard.readText().then((pastedText) => {
+                          setNewText(pastedText);
+                          form.setValue("text", pastedText);
+                        });
+                      }}
+                    >
+                      <Clipboard color="#1c9b4d" className="h-10 w-10" />
+                      Paste Text
+                    </Button>
+                  </div>
+                </If>
+              </div>
+
               <div className="flex justify-between mt-5">
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className="flex items-center justify-center"
+                >
+                  <Label htmlFor="wordDoc">
+                    <span className="flex items-center">
+                      <UploadCloud color="#1c9b4d" className="h-6 w-6" /> &nbsp;
+                      Upload Doc
+                    </span>
+                  </Label>
+                  <Input
+                    id="wordDoc"
+                    type="file"
+                    className="hidden"
+                    accept=".docx"
+                    onChange={handleFileChange}
+                  />
+                </Button>
                 <span className="p-3">{wordCount(newText)} Words</span>
                 <Button type="submit">Summarize</Button>
               </div>
@@ -119,7 +174,7 @@ function Home() {
           <Separator orientation="vertical" />
           <div className="w-[590px] p-5">
             <TypeAnimation
-              sequence={["Hello World", 2000]}
+              sequence={["", 2000]}
               wrapper="p"
               cursor={true}
               className="p-2"
