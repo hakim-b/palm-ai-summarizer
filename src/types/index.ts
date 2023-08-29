@@ -7,9 +7,3 @@ export type RootLayoutProps = {
 export type ProvidersProps = {
   children: ReactNode;
 };
-
-declare global {
-  interface Window {
-    clipboardData: DataTransfer
-  }
-}
