@@ -147,26 +147,6 @@ function Home() {
               </div>
 
               <div className="flex justify-between mt-5">
-                {/* <Button
-                  variant="ghost"
-                  type="button"
-                  className="flex items-center justify-center"
-                >
-                  <Label htmlFor="wordDoc">
-                    <span className="flex items-center">
-                      <UploadCloud color="#1c9b4d" className="h-6 w-6" /> &nbsp;
-                      Upload Doc
-                    </span>
-                  </Label>
-                  <Input
-                    id="wordDoc"
-                    type="file"
-                    className="hidden"
-                    accept=".txt, text/plain, .doc, .docx, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    onChange={handleFileChange}
-                  />
-                </Button> */}
-
                 <Show>
                   <Show.When isTrue={!form.watch("text")}>
                     <Button
