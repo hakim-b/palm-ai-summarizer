@@ -35,7 +35,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import Link from "next/link";
-import { getDoc, addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
 const formSchema = z.object({
@@ -67,13 +67,15 @@ function Home() {
       text: data.text,
     });
 
-    const docSnap = await getDoc(newDocRef);
-    const docData = docSnap.data();
-
     setNewText(data.text);
-    setSummary(docData?.summary);
 
-    console.log("Document:", newText, summary);
+    const unsub = onSnapshot(newDocRef, (doc) => {
+      console.log(doc.data());
+      setSummary(doc.data()?.summary);
+      console.log(summary);
+    });
+
+    return () => unsub;
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -210,12 +212,7 @@ function Home() {
           </Form>
           <Separator orientation="vertical" />
           <div className="w-[590px] p-5">
-            <TypeAnimation
-              sequence={[summary, 2000]}
-              wrapper="p"
-              cursor={true}
-              className="p-2"
-            />
+            <p>{summary}</p>
           </div>
         </div>
       </div>
