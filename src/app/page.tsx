@@ -42,7 +42,13 @@ const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
 });
 
+const textDocSchema = z.object({
+  id: z.string().uuid(),
+  text: z.string(),
+});
+
 type FormValues = z.infer<typeof formSchema>;
+type TextDocument = z.infer<typeof textDocSchema>;
 
 function wordCount(strIn: string) {
   const trimStr = strIn.trim();
@@ -59,21 +65,26 @@ function Home() {
 
   const form = useForm<FormValues>({ resolver: zodResolver(formSchema) });
 
-  const [newText, setNewText] = useState("");
+  const [newTextDoc, setNewTextDoc] = useState<TextDocument>({
+    id: crypto.randomUUID(),
+    text: "",
+  });
 
   const onSubmit = async (data: FormValues) => {
-    if (newText.length !== 0 || data.text.length !== 0) {
+    if (newTextDoc.text.length !== 0 || data.text.length !== 0) {
       await addDoc(collection(db, "text_documents"), {
         text: data.text,
       });
     }
 
-    setNewText(data.text);
+    setNewTextDoc({ id: crypto.randomUUID(), text: data.text });
+    console.log(newTextDoc.text);
+    
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    setNewText(value);
+    setNewTextDoc({ id: crypto.randomUUID(), text: value });
     form.setValue("text", value); // Update form value
   };
 
@@ -83,7 +94,7 @@ function Home() {
       const result = await mammoth.extractRawText({
         arrayBuffer: await file.arrayBuffer(),
       });
-      setNewText(result.value);
+      setNewTextDoc({ id: crypto.randomUUID(), text: result.value });
       form.setValue("text", result.value);
     }
   };
@@ -143,7 +154,7 @@ function Home() {
                           cols={60}
                           {...field}
                           className="border-none outline-none resize-none p-8"
-                          value={newText}
+                          value={newTextDoc.text}
                           onChange={handleTextareaChange}
                         />
                       </FormControl>
@@ -159,7 +170,10 @@ function Home() {
                       className="py-8 px-3"
                       onClick={() => {
                         navigator.clipboard.readText().then((pastedText) => {
-                          setNewText(pastedText);
+                          setNewTextDoc({
+                            id: crypto.randomUUID(),
+                            text: pastedText,
+                          });
                           form.setValue("text", pastedText);
                         });
                       }}
@@ -195,7 +209,7 @@ function Home() {
                     </Button>{" "}
                   </Show.When>
                   <Show.Else>
-                    <span className="p-3">{wordCount(newText)} Words</span>
+                    <span className="p-3">{wordCount(newTextDoc.text)} Words</span>
                   </Show.Else>
                 </Show>
 
