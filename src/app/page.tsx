@@ -63,13 +63,18 @@ function Home() {
   const [summary, setSummary] = useState("");
 
   const getSummary = async (docId: string) => {
-    const docRef = doc(db, "text_documents", docId);
-    const docSnap = await getDoc(docRef);
+    try {
+      const docRef = doc(db, "text_documents", docId);
+      const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      const docData = docSnap.data();
-      return docData.summary;
-    } else {
+      if (docSnap.exists()) {
+        const docData = docSnap.data();
+        return docData.summary;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting document:", error);
       return null;
     }
   };
@@ -77,14 +82,11 @@ function Home() {
   const onSubmit = async (data: FormValues) => {
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
-      summary: "",
     });
 
     setNewText(data.text);
     const newSummary = await getSummary(newDocRef.id);
-    console.log("DOC ID: ", newDocRef.id);
     setSummary(newSummary);
-    console.log("Text Doc: ", newText, newSummary);
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
