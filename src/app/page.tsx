@@ -79,7 +79,6 @@ function Home() {
 
     setNewTextDoc({ id: crypto.randomUUID(), text: data.text });
     console.log(newTextDoc.text);
-    
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
