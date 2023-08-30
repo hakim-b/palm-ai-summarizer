@@ -35,20 +35,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import Link from "next/link";
-import { addDoc, collection } from "firebase/firestore";
+import { getDoc, addDoc, collection, doc } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
 });
 
-const textDocSchema = z.object({
-  id: z.string().uuid(),
-  text: z.string(),
-});
-
 type FormValues = z.infer<typeof formSchema>;
-type TextDocument = z.infer<typeof textDocSchema>;
 
 function wordCount(strIn: string) {
   const trimStr = strIn.trim();
@@ -65,25 +59,36 @@ function Home() {
 
   const form = useForm<FormValues>({ resolver: zodResolver(formSchema) });
 
-  const [newTextDoc, setNewTextDoc] = useState<TextDocument>({
-    id: crypto.randomUUID(),
-    text: "",
-  });
+  const [newText, setNewText] = useState("");
+  const [summary, setSummary] = useState("");
+
+  const getSummary = async (docId: string) => {
+    const docRef = doc(db, "text_documents", docId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const docData = docSnap.data();
+      return docData.summary;
+    } else {
+      return null;
+    }
+  };
 
   const onSubmit = async (data: FormValues) => {
-    if (newTextDoc.text.length !== 0 || data.text.length !== 0) {
-      await addDoc(collection(db, "text_documents"), {
-        text: data.text,
-      });
-    }
+    const newDocRef = await addDoc(collection(db, "text_documents"), {
+      text: data.text,
+    });
 
-    setNewTextDoc({ id: crypto.randomUUID(), text: data.text });
-    console.log(newTextDoc.text);
+    setNewText(data.text);
+    const newSummary = await getSummary(newDocRef.id);
+    console.log("DOC ID: ", newDocRef.id);
+    console.log("Text Doc: ", newText, newSummary);
+    setSummary(newSummary);
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    setNewTextDoc({ id: crypto.randomUUID(), text: value });
+    setNewText(value);
     form.setValue("text", value); // Update form value
   };
 
@@ -93,7 +98,7 @@ function Home() {
       const result = await mammoth.extractRawText({
         arrayBuffer: await file.arrayBuffer(),
       });
-      setNewTextDoc({ id: crypto.randomUUID(), text: result.value });
+      setNewText(result.value);
       form.setValue("text", result.value);
     }
   };
@@ -153,7 +158,7 @@ function Home() {
                           cols={60}
                           {...field}
                           className="border-none outline-none resize-none p-8"
-                          value={newTextDoc.text}
+                          value={newText}
                           onChange={handleTextareaChange}
                         />
                       </FormControl>
@@ -169,10 +174,7 @@ function Home() {
                       className="py-8 px-3"
                       onClick={() => {
                         navigator.clipboard.readText().then((pastedText) => {
-                          setNewTextDoc({
-                            id: crypto.randomUUID(),
-                            text: pastedText,
-                          });
+                          setNewText(pastedText);
                           form.setValue("text", pastedText);
                         });
                       }}
@@ -208,7 +210,7 @@ function Home() {
                     </Button>{" "}
                   </Show.When>
                   <Show.Else>
-                    <span className="p-3">{wordCount(newTextDoc.text)} Words</span>
+                    <span className="p-3">{wordCount(newText)} Words</span>
                   </Show.Else>
                 </Show>
 
@@ -219,7 +221,7 @@ function Home() {
           <Separator orientation="vertical" />
           <div className="w-[590px] p-5">
             <TypeAnimation
-              sequence={["", 2000]}
+              sequence={[summary, 2000]}
               wrapper="p"
               cursor={true}
               className="p-2"
