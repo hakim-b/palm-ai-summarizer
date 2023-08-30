@@ -35,7 +35,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import Link from "next/link";
-import { getDoc, addDoc, collection, doc } from "firebase/firestore";
+import { getDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
 const formSchema = z.object({
@@ -62,31 +62,18 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
-  const getSummary = async (docId: string) => {
-    try {
-      const docRef = doc(db, "text_documents", docId);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const docData = docSnap.data();
-        return docData.summary;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error("Error getting document:", error);
-      return null;
-    }
-  };
-
   const onSubmit = async (data: FormValues) => {
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
     });
 
+    const docSnap = await getDoc(newDocRef);
+    const docData = docSnap.data();
+
     setNewText(data.text);
-    const newSummary = await getSummary(newDocRef.id);
-    setSummary(newSummary);
+    setSummary(docData?.summary);
+
+    console.log("Document:", newText, summary);
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
