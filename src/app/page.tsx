@@ -77,13 +77,14 @@ function Home() {
   const onSubmit = async (data: FormValues) => {
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
+      summary: "",
     });
 
     setNewText(data.text);
     const newSummary = await getSummary(newDocRef.id);
     console.log("DOC ID: ", newDocRef.id);
-    console.log("Text Doc: ", newText, newSummary);
     setSummary(newSummary);
+    console.log("Text Doc: ", newText, newSummary);
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
