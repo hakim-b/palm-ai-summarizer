@@ -80,9 +80,6 @@ dependencies:
   react-type-animation:
     specifier: ^3.1.0
     version: 3.1.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
-  reactfire:
-    specifier: ^4.2.3
-    version: 4.2.3(firebase@10.3.0)(react@18.2.0)
   tailwind-merge:
     specifier: ^1.14.0
     version: 1.14.0
@@ -3637,19 +3634,6 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
-  /reactfire@4.2.3(firebase@10.3.0)(react@18.2.0):
-    resolution: {integrity: sha512-FG75b586r8dId7EGIyVi/nKokth++BIvdRO1BRIBkM7BGe2v753olcNpUHBLGdBPap7t67vq2FA0P22Pu8rT3Q==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      firebase: ^9.0.0
-      react: '>=16 || experimental'
-    dependencies:
-      firebase: 10.3.0
-      react: 18.2.0
-      rxfire: 6.0.4(firebase@10.3.0)(rxjs@7.8.1)
-      rxjs: 7.8.1
-    dev: false
-
   /read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
     dependencies:
@@ -3748,22 +3732,6 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
-    dev: false
-
-  /rxfire@6.0.4(firebase@10.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-s/1SkWLA1SIKqQl3DFKkKRYHda4z8YeGBY/v2IWsN3EqHEParKV1+WXDkxhOhra2NDlv5GB0WAbeO3QE8kPkmg==}
-    peerDependencies:
-      firebase: ^10.0.0
-      rxjs: ^6.0.0 || ^7.0.0
-    dependencies:
-      firebase: 10.3.0
-      rxjs: 7.8.1
-    dev: false
-
-  /rxjs@7.8.1:
-    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
-    dependencies:
-      tslib: 2.6.2
     dev: false
 
   /safe-array-concat@1.0.0:

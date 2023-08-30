@@ -35,6 +35,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import Link from "next/link";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -59,8 +61,14 @@ function Home() {
 
   const [newText, setNewText] = useState("");
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data.text);
+  const onSubmit = async (data: FormValues) => {
+    if (newText.length !== 0 || data.text.length !== 0) {
+      await addDoc(collection(db, "text_documents"), {
+        text: data.text,
+      });
+    }
+
+    setNewText(data.text);
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
