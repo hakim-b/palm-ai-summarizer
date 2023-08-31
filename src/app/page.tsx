@@ -7,6 +7,8 @@ import {
   Clipboard,
   UploadCloud,
   Github,
+  Copy,
+  Trash,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -28,9 +30,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { TypeAnimation } from "react-type-animation";
 import { ChangeEvent, useState } from "react";
-import { If, Show } from "react-haiku";
+import { If, Show, useClipboard } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
@@ -44,16 +45,6 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-function wordCount(strIn: string) {
-  const trimStr = strIn.trim();
-  if (trimStr === "") {
-    return 0; // Return 0 if the string is empty
-  }
-
-  const wordArr = trimStr.split(/\s+/);
-  return wordArr.length;
-}
-
 function Home() {
   const { setTheme } = useTheme();
 
@@ -62,6 +53,8 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
+  const clipboard = useClipboard();
+
   const onSubmit = async (data: FormValues) => {
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
@@ -69,19 +62,16 @@ function Home() {
 
     setNewText(data.text);
 
-    const unsub = onSnapshot(newDocRef, (doc) => {
-      console.log(doc.data());
-      setSummary(doc.data()?.summary);
-      console.log(summary);
+    onSnapshot(newDocRef, (doc) => {
+      const newSummary = doc.data()?.summary as string;
+      setSummary(newSummary);
     });
-
-    return () => unsub;
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setNewText(value);
-    form.setValue("text", value); // Update form value
+    form.setValue("text", value);
   };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -95,12 +85,22 @@ function Home() {
     }
   };
 
+  const wordCount = (strIn: string) => {
+    const trimStr = strIn?.trim();
+    if (trimStr === "") {
+      return 0;
+    }
+
+    const wordArr = trimStr?.split(/\s+/);
+    return wordArr?.length;
+  };
+
   return (
     <>
       <div className="flex justify-between p-6 border shadow-sm">
         <h1 className="text-4xl font-bold flex">
           <Palmtree className="h-10 w-10" color="#1c9b4d" />
-          Summarizer
+          PaLM AI Summarizer
         </h1>
         <div className="flex gap-2">
           <Link
@@ -152,13 +152,14 @@ function Home() {
                           className="border-none outline-none resize-none p-8"
                           value={newText}
                           onChange={handleTextareaChange}
+                          style={{ fontSize: "16px" }}
                         />
                       </FormControl>
                       <FormMessage className="p-2" />
                     </FormItem>
                   )}
                 />
-                <If isTrue={!form.watch("text")}>
+                <If isTrue={!form.watch("text") || newText.length === 0}>
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <Button
                       variant={"outline"}
@@ -180,7 +181,9 @@ function Home() {
 
               <div className="flex justify-between mt-5">
                 <Show>
-                  <Show.When isTrue={!form.watch("text")}>
+                  <Show.When
+                    isTrue={!form.watch("text") || newText.length === 0}
+                  >
                     <Button
                       variant="ghost"
                       type="button"
@@ -211,10 +214,33 @@ function Home() {
             </form>
           </Form>
           <Separator orientation="vertical" />
-          <div className="w-[590px] p-5">
-            <p>{summary}</p>
+          <div className="w-[590px] flex flex-col justify-between">
+            <p className="p-8">{summary}</p>
+
+            <If isTrue={summary !== undefined && summary.length > 0}>
+              <div className="flex justify-between">
+                <span className="p-3">{wordCount(summary)} Words</span>
+                <Button variant="ghost" onClick={() => clipboard.copy(summary)}>
+                  <Copy color="#1c9b4d" className="h-6 w-6" />
+                  Copy
+                </Button>
+              </div>
+            </If>
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-center items-center mt-16">
+        <Button
+          variant="destructive"
+          onClick={() => {
+            setNewText("");
+            setSummary("");
+          }}
+        >
+          <Trash />
+          Clear all text
+        </Button>
       </div>
     </>
   );
