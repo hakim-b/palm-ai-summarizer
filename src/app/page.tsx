@@ -31,13 +31,14 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, useState } from "react";
-import { If, Show, useClipboard } from "react-haiku";
+import { If, Show, useBoolToggle, useClipboard } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import Link from "next/link";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -53,9 +54,17 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
+  const [isLoading, toggleLoading] = useBoolToggle(false);
+
   const clipboard = useClipboard();
 
+  const loadingClass = isLoading
+    ? "w-[590px] p-8"
+    : "w-[590px] flex flex-col justify-between";
+
   const onSubmit = async (data: FormValues) => {
+    toggleLoading();
+
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
     });
@@ -65,6 +74,7 @@ function Home() {
     onSnapshot(newDocRef, (doc) => {
       const newSummary = doc.data()?.summary as string;
       setSummary(newSummary);
+      toggleLoading();
     });
   };
 
@@ -214,18 +224,38 @@ function Home() {
             </form>
           </Form>
           <Separator orientation="vertical" />
-          <div className="w-[590px] flex flex-col justify-between">
-            <p className="p-8">{summary}</p>
+          <div className={loadingClass}>
+            <Show>
+              <Show.When isTrue={isLoading}>
+                <h2 className="text-3xl font-semibold">
+                  Summarizing...
+                </h2>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[240px]" />
+                  <Skeleton className="h-4 w-[230px]" />
+                  <Skeleton className="h-4 w-[220px]" />
+                  <Skeleton className="h-4 w-[210px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </Show.When>
+              <Show.Else>
+                <p className="p-8">{summary}</p>
 
-            <If isTrue={summary !== undefined && summary.length > 0}>
-              <div className="flex justify-between">
-                <span className="p-3">{wordCount(summary)} Words</span>
-                <Button variant="ghost" onClick={() => clipboard.copy(summary)}>
-                  <Copy color="#1c9b4d" className="h-6 w-6" />
-                  Copy
-                </Button>
-              </div>
-            </If>
+                <If isTrue={summary !== undefined && summary.length > 0}>
+                  <div className="flex justify-between">
+                    <span className="p-3">{wordCount(summary)} Words</span>
+                    <Button
+                      variant="ghost"
+                      onClick={() => clipboard.copy(summary)}
+                    >
+                      <Copy color="#1c9b4d" className="h-6 w-6" />
+                      Copy
+                    </Button>
+                  </div>
+                </If>
+              </Show.Else>
+            </Show>
           </div>
         </div>
       </div>
