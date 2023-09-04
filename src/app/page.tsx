@@ -1,25 +1,7 @@
 "use client";
 
-import {
-  Moon,
-  Palmtree,
-  Sun,
-  Clipboard,
-  UploadCloud,
-  Github,
-  Copy,
-  Trash,
-  AlignJustify,
-  Laptop2,
-} from "lucide-react";
-import { useTheme } from "next-themes";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Clipboard, UploadCloud, Copy, Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -33,22 +15,14 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, useState } from "react";
-import {
-  If,
-  Show,
-  useBoolToggle,
-  useClipboard,
-  useMediaQuery,
-  usePrefersTheme,
-} from "react-haiku";
+import { If, Show, useBoolToggle, useClipboard } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
-import Link from "next/link";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Navbar from "@/components/navbar";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -57,8 +31,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 function Home() {
-  const { theme, setTheme } = useTheme();
-
   const form = useForm<FormValues>({ resolver: zodResolver(formSchema) });
 
   const [newText, setNewText] = useState("");
@@ -67,8 +39,6 @@ function Home() {
   const [isLoading, toggleLoading] = useBoolToggle(false);
 
   const clipboard = useClipboard();
-
-  const breakpoint = useMediaQuery("(max-width: 1200px)");
 
   const loadingClass = isLoading
     ? "w-[590px] p-8"
@@ -119,100 +89,7 @@ function Home() {
 
   return (
     <>
-      <Show>
-        <Show.When isTrue={breakpoint}>
-          <div className="flex justify-between p-6 border shadow-sm mx-auto">
-            <h1 className="text-4xl font-bold flex">
-              <Palmtree className="h-10 w-10" color="#1c9b4d" />
-              PaLM AI Summarizer
-            </h1>
-
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline">
-                  <AlignJustify />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <Link
-                  href="https://github.com/hakim-b/palm-ai-summarizer"
-                  className={buttonVariants({})}
-                  target="_blank"
-                >
-                  <Github className="h-7 w-7" /> GitHub
-                </Link>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button>
-                      <Show>
-                        <Show.When isTrue={theme === "light"}>
-                          <Sun className="h-6 w-6" />
-                        </Show.When>
-                        <Show.When isTrue={theme === "dark"}>
-                          <Moon className="h-6 w-6" />
-                        </Show.When>
-                        <Show.Else>
-                          <Laptop2 className="h-6 w-6" />
-                        </Show.Else>
-                      </Show>
-                      {(theme as string).charAt(0).toUpperCase() +
-                        theme?.substring(1, theme?.length)}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
-                      Light
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
-                      Dark
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
-                      System
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </Show.When>
-        <Show.Else>
-          <div className="flex justify-between p-6 border shadow-sm mx-auto">
-            <h1 className="text-4xl font-bold flex">
-              <Palmtree className="h-10 w-10" color="#1c9b4d" />
-              PaLM AI Summarizer
-            </h1>
-            <div className="flex gap-2">
-              <Link
-                href="https://github.com/hakim-b/palm-ai-summarizer"
-                className={buttonVariants({ variant: "ghost", size: "icon" })}
-                target="_blank"
-              >
-                <Github className="h-7 w-7" />
-              </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    <span className="sr-only">Toggle theme</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setTheme("light")}>
-                    Light
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("dark")}>
-                    Dark
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("system")}>
-                    System
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </Show.Else>
-      </Show>
+      <Navbar />
 
       <div className="flex justify-center">
         <div className="mt-12 rounded-lg flex border w-fit shadow-2xl">
