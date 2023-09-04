@@ -43,7 +43,7 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
-  const [isLoading, toggleLoading] = useBoolToggle(false);
+  const [isLoading, setIsLoading] = useBoolToggle(false);
 
   const clipboard = useClipboard();
 
@@ -58,7 +58,7 @@ function Home() {
     : "w-full flex flex-col justify-between";
 
   const onSubmit = async (data: FormValues) => {
-    toggleLoading();
+    setIsLoading(true);
 
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
@@ -68,8 +68,16 @@ function Home() {
 
     onSnapshot(newDocRef, (doc) => {
       const newSummary = doc.data()?.summary as string;
-      setSummary(newSummary);
-      toggleLoading();
+      const state = doc.data()?.status?.state as string;
+      const error = doc.data()?.status?.error as string;
+
+      if (state === "ERRORED") {
+        setSummary(error);
+      } else if (state === "COMPLETED") {
+        setSummary(newSummary);
+      }
+
+      setIsLoading(false);
     });
   };
 
