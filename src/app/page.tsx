@@ -1,6 +1,6 @@
 "use client";
 
-import { Clipboard, UploadCloud, Copy, Trash } from "lucide-react";
+import { Clipboard, UploadCloud, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
@@ -14,22 +14,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { ChangeEvent, useState } from "react";
-import {
-  If,
-  Show,
-  useBoolToggle,
-  useClipboard,
-  useMediaQuery,
-} from "react-haiku";
+import { ChangeEvent, Suspense, useState } from "react";
+import { If, Show, useMediaQuery } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
-import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from "@/components/navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
+import { wordCount } from "@/utilities/wordCount";
+import { Summary } from "@/components/summary";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -43,23 +39,9 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
-  const [isLoading, setIsLoading] = useBoolToggle(false);
-
-  const clipboard = useClipboard();
-
   const medBreakpoint = useMediaQuery("(max-width: 925px)");
 
-  const loadingClass = isLoading
-    ? "w-[590px] p-8"
-    : "w-[590px] flex flex-col justify-between";
-
-  const loadingPhone = isLoading
-    ? "w-full p-8"
-    : "w-full flex flex-col justify-between";
-
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
-
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
     });
@@ -76,8 +58,6 @@ function Home() {
       } else if (state === "COMPLETED") {
         setSummary(newSummary);
       }
-
-      setIsLoading(false);
     });
   };
 
@@ -98,17 +78,6 @@ function Home() {
       setNewText(result.value);
       form.setValue("text", result.value);
     }
-  };
-
-  const wordCount = (strIn: string) => {
-    const trimStr = strIn?.trim();
-
-    if (trimStr === "") {
-      return 0;
-    }
-
-    const wordArr = trimStr?.split(/\s+/);
-    return wordArr?.length;
   };
 
   return (
@@ -198,35 +167,12 @@ function Home() {
               </Form>
             </TabsContent>
             <TabsContent value="summary">
-              <div className={loadingPhone}>
-                <Show>
-                  <Show.When isTrue={isLoading}>
-                    <h2 className="text-3xl font-semibold">Summarizing...</h2>
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[240px]" />
-                      <Skeleton className="h-4 w-[230px]" />
-                      <Skeleton className="h-4 w-[220px]" />
-                      <Skeleton className="h-4 w-[210px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </Show.When>
-                  <Show.Else>
-                    <p className="p-8">{summary}</p>
-                    <If isTrue={summary !== undefined && summary.length > 0}>
-                      <div className="flex justify-between">
-                        <span className="p-3">{wordCount(summary)} Words</span>
-                        <Button
-                          variant="ghost"
-                          onClick={() => clipboard.copy(summary)}
-                        >
-                          <Copy color="#1c9b4d" className="h-6 w-6" />
-                          Copy
-                        </Button>
-                      </div>
-                    </If>
-                  </Show.Else>
-                </Show>
+              <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
+                {summary && (
+                  <Suspense fallback={<ParagraphSkeleton />}>
+                    <Summary content={summary} />
+                  </Suspense>
+                )}
               </div>
             </TabsContent>
           </Tabs>
@@ -316,35 +262,12 @@ function Home() {
                 </form>
               </Form>
               <Separator orientation="vertical" />
-              <div className={loadingClass}>
-                <Show>
-                  <Show.When isTrue={isLoading}>
-                    <h2 className="text-3xl font-semibold">Summarizing...</h2>
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[240px]" />
-                      <Skeleton className="h-4 w-[230px]" />
-                      <Skeleton className="h-4 w-[220px]" />
-                      <Skeleton className="h-4 w-[210px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </Show.When>
-                  <Show.Else>
-                    <p className="p-8">{summary}</p>
-                    <If isTrue={summary !== undefined && summary.length > 0}>
-                      <div className="flex justify-between">
-                        <span className="p-3">{wordCount(summary)} Words</span>
-                        <Button
-                          variant="ghost"
-                          onClick={() => clipboard.copy(summary)}
-                        >
-                          <Copy color="#1c9b4d" className="h-6 w-6" />
-                          Copy
-                        </Button>
-                      </div>
-                    </If>
-                  </Show.Else>
-                </Show>
+              <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
+                {summary && (
+                  <Suspense fallback={<ParagraphSkeleton />}>
+                    <Summary content={summary} />
+                  </Suspense>
+                )}
               </div>
             </div>
           </div>
