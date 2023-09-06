@@ -1,6 +1,6 @@
 "use client";
 
-import { Clipboard, UploadCloud, Trash, Loader2 } from "lucide-react";
+import { Clipboard, UploadCloud, Trash, Loader2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
@@ -14,8 +14,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { ChangeEvent, Suspense, useState } from "react";
-import { If, Show, useBoolToggle, useMediaQuery } from "react-haiku";
+import { ChangeEvent, useState } from "react";
+import {
+  If,
+  Show,
+  useBoolToggle,
+  useClipboard,
+  useMediaQuery,
+} from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
@@ -24,8 +30,6 @@ import { db } from "@/firebase.config";
 import Navbar from "@/components/navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
-import { wordCount } from "@/utilities/wordCount";
-import { Summary } from "@/components/summary";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -38,6 +42,8 @@ function Home() {
 
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
+
+  const clipboard = useClipboard();
 
   const [isLoading, toggleLoading] = useBoolToggle(false);
 
@@ -59,11 +65,11 @@ function Home() {
 
       if (state === "ERRORED") {
         setSummary(error);
+        toggleLoading();
       } else if (state === "COMPLETED") {
         setSummary(newSummary);
+        toggleLoading();
       }
-
-      toggleLoading();
     });
   };
 
@@ -84,6 +90,17 @@ function Home() {
       setNewText(result.value);
       form.setValue("text", result.value);
     }
+  };
+
+  const wordCount = (strIn: string) => {
+    const trimStr = strIn?.trim();
+
+    if (trimStr === "") {
+      return 0;
+    }
+
+    const wordArr = trimStr?.split(/\s+/);
+    return wordArr?.length;
   };
 
   return (
@@ -167,18 +184,41 @@ function Home() {
                   </div>
                   <div className="flex justify-between mt-5">
                     <span className="p-3">{wordCount(newText)} Words</span>
-                    <Button type="submit">Summarize</Button>
+                    <Button type="submit" disabled={isLoading}>
+                      <Show>
+                        <Show.When isTrue={isLoading}>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing...
+                        </Show.When>
+                        <Show.Else>Summarize</Show.Else>
+                      </Show>
+                    </Button>
                   </div>
                 </form>
               </Form>
             </TabsContent>
             <TabsContent value="summary">
               <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
-                {summary && (
-                  <Suspense fallback={<ParagraphSkeleton />}>
-                    <Summary content={summary} />
-                  </Suspense>
-                )}
+                <Show>
+                  <Show.When isTrue={isLoading}>
+                    <ParagraphSkeleton />
+                  </Show.When>
+                  <Show.Else>
+                    <p className="p-8">{summary}</p>
+                    <If isTrue={summary !== undefined && summary.length > 0}>
+                      <div className="flex justify-between">
+                        <span className="p-3">{wordCount(summary)} Words</span>
+                        <Button
+                          variant="ghost"
+                          onClick={() => clipboard.copy(summary)}
+                        >
+                          <Copy color="#1c9b4d" className="h-6 w-6" />
+                          Copy
+                        </Button>
+                      </div>
+                    </If>
+                  </Show.Else>
+                </Show>
               </div>
             </TabsContent>
           </Tabs>
@@ -277,11 +317,26 @@ function Home() {
               </Form>
               <Separator orientation="vertical" />
               <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
-                {summary && (
-                  <Suspense fallback={<ParagraphSkeleton />}>
-                    <Summary content={summary} />
-                  </Suspense>
-                )}
+                <Show>
+                  <Show.When isTrue={isLoading}>
+                    <ParagraphSkeleton />
+                  </Show.When>
+                  <Show.Else>
+                    <p className="p-8">{summary}</p>
+                    <If isTrue={summary !== undefined && summary.length > 0}>
+                      <div className="flex justify-between">
+                        <span className="p-3">{wordCount(summary)} Words</span>
+                        <Button
+                          variant="ghost"
+                          onClick={() => clipboard.copy(summary)}
+                        >
+                          <Copy color="#1c9b4d" className="h-6 w-6" />
+                          Copy
+                        </Button>
+                      </div>
+                    </If>
+                  </Show.Else>
+                </Show>
               </div>
             </div>
           </div>
