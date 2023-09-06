@@ -1,6 +1,6 @@
 "use client";
 
-import { Clipboard, UploadCloud, Trash } from "lucide-react";
+import { Clipboard, UploadCloud, Trash, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, Suspense, useState } from "react";
-import { If, Show, useMediaQuery } from "react-haiku";
+import { If, Show, useBoolToggle, useMediaQuery } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
@@ -39,9 +39,13 @@ function Home() {
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
 
+  const [isLoading, toggleLoading] = useBoolToggle(false);
+
   const medBreakpoint = useMediaQuery("(max-width: 925px)");
 
   const onSubmit = async (data: FormValues) => {
+    toggleLoading();
+
     const newDocRef = await addDoc(collection(db, "text_documents"), {
       text: data.text,
     });
@@ -49,15 +53,17 @@ function Home() {
     setNewText(data.text);
 
     onSnapshot(newDocRef, (doc) => {
-      const newSummary = doc.data()?.summary as string;
-      const state = doc.data()?.status?.state as string;
-      const error = doc.data()?.status?.error as string;
+      const newSummary = doc.data()?.summary;
+      const state = doc.data()?.status?.state;
+      const error = doc.data()?.status?.error;
 
       if (state === "ERRORED") {
         setSummary(error);
       } else if (state === "COMPLETED") {
         setSummary(newSummary);
       }
+
+      toggleLoading();
     });
   };
 
@@ -257,7 +263,15 @@ function Home() {
                         <span className="p-3">{wordCount(newText)} Words</span>
                       </Show.Else>
                     </Show>
-                    <Button type="submit">Summarize</Button>
+                    <Button type="submit" disabled={isLoading}>
+                      <Show>
+                        <Show.When isTrue={isLoading}>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing...
+                        </Show.When>
+                        <Show.Else>Summarize</Show.Else>
+                      </Show>
+                    </Button>
                   </div>
                 </form>
               </Form>
