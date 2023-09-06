@@ -18,7 +18,7 @@ function Navbar() {
         <div className="container flex items-center justify-between">
           <div className="flex items-center">
             <Palmtree className="h-8 w-8" color="#16a34a" />
-            <h1 className="text-sm min-[800px]:text-3xl font-bold ml-2">
+            <h1 className="text-sm min-[925px]:text-3xl font-bold ml-2">
               PaLM AI Summarizer
             </h1>
           </div>
