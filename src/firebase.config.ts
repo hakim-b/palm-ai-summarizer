@@ -1,4 +1,4 @@
-import { env } from "./env.mjs";
+import { env } from "./env/client";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
