@@ -129,10 +129,9 @@ function Home() {
                               rows={25}
                               cols={25}
                               {...field}
-                              className="border-none outline-none resize-none p-8"
+                              className="border-none outline-none resize-none p-8 font-[16px]"
                               value={newText}
                               onChange={handleTextareaChange}
-                              style={{ fontSize: "16px" }}
                             />
                           </FormControl>
                           <FormMessage className="p-2" />
