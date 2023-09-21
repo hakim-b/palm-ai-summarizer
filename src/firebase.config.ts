@@ -1,8 +1,8 @@
 import { env } from "./env/client";
-import { initializeApp } from "firebase/app";
+import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-export const firebaseConfig = {
+export const firebaseConfig: FirebaseOptions = {
   apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
