@@ -15,13 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, useState } from "react";
-import {
-  If,
-  Show,
-  useBoolToggle,
-  useClipboard,
-  useMediaQuery,
-} from "react-haiku";
+import { If, Show, useBoolToggle, useMediaQuery } from "react-haiku";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import mammoth from "mammoth";
@@ -30,6 +24,8 @@ import { db } from "@/firebase.config";
 import Navbar from "@/components/navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
+import { Summary } from "@/components/summary";
+import { wordCount } from "@/lib/utils";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -42,8 +38,6 @@ function Home() {
 
   const [newText, setNewText] = useState("");
   const [summary, setSummary] = useState("");
-
-  const clipboard = useClipboard();
 
   const [isLoading, toggleLoading] = useBoolToggle(false);
 
@@ -90,17 +84,6 @@ function Home() {
       setNewText(result.value);
       form.setValue("text", result.value);
     }
-  };
-
-  const wordCount = (strIn: string) => {
-    const trimStr = strIn?.trim();
-
-    if (trimStr === "") {
-      return 0;
-    }
-
-    const wordArr = trimStr?.split(/\s+/);
-    return wordArr?.length;
   };
 
   return (
@@ -203,19 +186,7 @@ function Home() {
                     <ParagraphSkeleton />
                   </Show.When>
                   <Show.Else>
-                    <p className="p-8">{summary}</p>
-                    <If isTrue={summary !== undefined && summary.length > 0}>
-                      <div className="flex justify-between">
-                        <span className="p-3">{wordCount(summary)} Words</span>
-                        <Button
-                          variant="ghost"
-                          onClick={() => clipboard.copy(summary)}
-                        >
-                          <Copy color="#1c9b4d" className="h-6 w-6" />
-                          Copy
-                        </Button>
-                      </div>
-                    </If>
+                    <Summary content={summary} />
                   </Show.Else>
                 </Show>
               </div>
@@ -321,19 +292,7 @@ function Home() {
                     <ParagraphSkeleton />
                   </Show.When>
                   <Show.Else>
-                    <p className="p-8">{summary}</p>
-                    <If isTrue={summary !== undefined && summary.length > 0}>
-                      <div className="flex justify-between">
-                        <span className="p-3">{wordCount(summary)} Words</span>
-                        <Button
-                          variant="ghost"
-                          onClick={() => clipboard.copy(summary)}
-                        >
-                          <Copy color="#1c9b4d" className="h-6 w-6" />
-                          Copy
-                        </Button>
-                      </div>
-                    </If>
+                    <Summary content={summary} />
                   </Show.Else>
                 </Show>
               </div>
