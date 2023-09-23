@@ -1,5 +1,3 @@
-"use client";
-
 import { Skeleton } from "./ui/skeleton";
 
 export const ParagraphSkeleton = () => {
