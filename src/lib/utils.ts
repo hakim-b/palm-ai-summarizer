@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const wordCount = (strIn: string) => {
+export function wordCount(strIn: string) {
   const trimStr = strIn?.trim();
 
   if (trimStr === "") {
@@ -14,4 +14,4 @@ export const wordCount = (strIn: string) => {
 
   const wordArr = trimStr?.split(/\s+/);
   return wordArr?.length;
-};
+}
