@@ -1,6 +1,6 @@
 "use client";
 
-import { Clipboard, UploadCloud, Trash, Loader2, Copy } from "lucide-react";
+import { Clipboard, UploadCloud, Trash, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
