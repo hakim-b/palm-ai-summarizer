@@ -67,7 +67,7 @@ function Home() {
     });
   };
 
-  const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setNewText(value);
     form.setValue("text", value);
@@ -114,7 +114,7 @@ function Home() {
                               {...field}
                               className="border-none outline-none resize-none p-8 font-[16px]"
                               value={newText}
-                              onChange={handleTextareaChange}
+                              onChange={handleTextAreaChange}
                             />
                           </FormControl>
                           <FormMessage className="p-2" />
@@ -212,7 +212,7 @@ function Home() {
                               {...field}
                               className="border-none outline-none resize-none p-8"
                               value={newText}
-                              onChange={handleTextareaChange}
+                              onChange={handleTextAreaChange}
                               style={{ fontSize: "16px" }}
                             />
                           </FormControl>
