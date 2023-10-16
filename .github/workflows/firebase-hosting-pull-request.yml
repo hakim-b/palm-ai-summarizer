@@ -13,5 +13,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PALM_SUMMARIZER_B9327 }}'
-          projectId: palm-summarizer-b9327
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PALM_AI_SUMMARIZER_6F2B5 }}'
+          projectId: palm-ai-summarizer-6f2b5

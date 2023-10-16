@@ -145,32 +145,25 @@ function Home() {
                             onChange={handleFileChange}
                           />
                         </Button>
-                        <If
-                          isTrue={
-                            "Clipboard" in window &&
-                            "readText" in Clipboard.prototype
-                          }
+                        <Button
+                          variant={"outline"}
+                          type="button"
+                          className="py-8 px-3"
+                          onClick={() => {
+                            navigator.clipboard
+                              .readText()
+                              .then((pastedText) => {
+                                setNewText(pastedText);
+                                form.setValue("text", pastedText);
+                              });
+                          }}
                         >
-                          <Button
-                            variant={"outline"}
-                            type="button"
-                            className="py-8 px-3"
-                            onClick={() => {
-                              navigator.clipboard
-                                .readText()
-                                .then((pastedText) => {
-                                  setNewText(pastedText);
-                                  form.setValue("text", pastedText);
-                                });
-                            }}
-                          >
-                            <ClipboardPaste
-                              color="#1c9b4d"
-                              className="h-10 w-10"
-                            />
-                            Paste Text
-                          </Button>
-                        </If>
+                          <ClipboardPaste
+                            color="#1c9b4d"
+                            className="h-10 w-10"
+                          />
+                          Paste Text
+                        </Button>
                       </div>
                     </If>
                   </div>
@@ -230,34 +223,27 @@ function Home() {
                       )}
                     />
                     <If isTrue={!form.watch("text") || newText.length === 0}>
-                      <If
-                        isTrue={
-                          "Clipboard" in window &&
-                          "readText" in Clipboard.prototype
-                        }
-                      >
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                          <Button
-                            variant={"outline"}
-                            type="button"
-                            className="py-8 px-3"
-                            onClick={() => {
-                              navigator.clipboard
-                                .readText()
-                                .then((pastedText) => {
-                                  setNewText(pastedText);
-                                  form.setValue("text", pastedText);
-                                });
-                            }}
-                          >
-                            <ClipboardPaste
-                              color="#1c9b4d"
-                              className="h-10 w-10"
-                            />
-                            Paste Text
-                          </Button>
-                        </div>
-                      </If>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <Button
+                          variant={"outline"}
+                          type="button"
+                          className="py-8 px-3"
+                          onClick={() => {
+                            navigator.clipboard
+                              .readText()
+                              .then((pastedText) => {
+                                setNewText(pastedText);
+                                form.setValue("text", pastedText);
+                              });
+                          }}
+                        >
+                          <ClipboardPaste
+                            color="#1c9b4d"
+                            className="h-10 w-10"
+                          />
+                          Paste Text
+                        </Button>
+                      </div>
                     </If>
                   </div>
                   <div className="flex justify-between mt-5">

@@ -1,0 +1,118 @@
+[debug] [2023-10-16T02:56:16.243Z] ----------------------------------------------------------------------
+[debug] [2023-10-16T02:56:16.246Z] Command:       /home/hakim/.nvm/versions/node/v18.12.1/bin/node /home/hakim/.nvm/versions/node/v18.12.1/bin/firebase deploy
+[debug] [2023-10-16T02:56:16.246Z] CLI Version:   12.7.0
+[debug] [2023-10-16T02:56:16.247Z] Platform:      linux
+[debug] [2023-10-16T02:56:16.247Z] Node Version:  v18.12.1
+[debug] [2023-10-16T02:56:16.247Z] Time:          Sun Oct 15 2023 22:56:16 GMT-0400 (Eastern Daylight Time)
+[debug] [2023-10-16T02:56:16.247Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-16T02:56:16.316Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-16T02:56:16.317Z] > authorizing via signed-in user (hakimbouabdellah02@gmail.com)
+[debug] [2023-10-16T02:56:16.317Z] [iam] checking project palm-ai-summarizer-6f2b5 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-16T02:56:16.319Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions [none]
+[debug] [2023-10-16T02:56:16.319Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions x-goog-quota-user=projects/palm-ai-summarizer-6f2b5
+[debug] [2023-10-16T02:56:16.324Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-16T02:56:16.877Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions 200
+[debug] [2023-10-16T02:56:16.877Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-16T02:56:16.879Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5 [none]
+[debug] [2023-10-16T02:56:17.276Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5 200
+[debug] [2023-10-16T02:56:17.277Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5 {"projectId":"palm-ai-summarizer-6f2b5","projectNumber":"672611899884","displayName":"palm-ai-summarizer","name":"projects/palm-ai-summarizer-6f2b5","resources":{"hostingSite":"palm-ai-summarizer-6f2b5"},"state":"ACTIVE","etag":"1_34fcad07-ca40-40a7-9373-5a07574d176d"}
+[debug] [2023-10-16T02:56:22.629Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5/sites pageToken=&pageSize=10
+[debug] [2023-10-16T02:56:23.419Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5/sites 200
+[debug] [2023-10-16T02:56:23.420Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5/sites {"sites":[{"name":"projects/palm-ai-summarizer-6f2b5/sites/palm-ai-summarizer-6f2b5","defaultUrl":"https://palm-ai-summarizer-6f2b5.web.app","appId":"1:672611899884:web:481b11998ef3ca054808c9","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-16T02:56:23.422Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:672611899884:web:481b11998ef3ca054808c9/config [none]
+[debug] [2023-10-16T02:56:23.904Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:672611899884:web:481b11998ef3ca054808c9/config 200
+[debug] [2023-10-16T02:56:23.904Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:672611899884:web:481b11998ef3ca054808c9/config {"projectId":"palm-ai-summarizer-6f2b5","appId":"1:672611899884:web:481b11998ef3ca054808c9","storageBucket":"palm-ai-summarizer-6f2b5.appspot.com","apiKey":"AIzaSyDQz1lmRS-906-iDvxmDGt54KYyhk68Mqo","authDomain":"palm-ai-summarizer-6f2b5.firebaseapp.com","messagingSenderId":"672611899884","measurementId":"G-6XCDZHYQZV"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info] - info Loaded env from /home/hakim/Documents/Next.jsApps/palm-ai-summarizer/.env.local
+
+[info] - info Creating an optimized production build...
+
+[info] - info Compiled successfully
+
+[info] - info Linting and checking validity of types...
+
+[info] - info Collecting page data...
+
+[info] - info Generating static pages (0/4)
+
+[info] - info Generating static pages (1/4)
+
+[info] - info Generating static pages (2/4)
+
+[info] - info Generating static pages (3/4)
+
+[info] ReferenceError: window is not defined
+    at Home (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/.next/server/app/page.js:1248:96)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:117:273)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:118:9)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:123:11)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at kg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:127:155)
+    at mg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:126:289)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:350)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:122:191)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:118:9)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at hg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:115:379)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:117:207)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+
+[info] 
+Error occurred prerendering page "/". Read more: https://nextjs.org/docs/messages/prerender-error
+ReferenceError: window is not defined
+    at Home (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/.next/server/app/page.js:1248:96)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:117:273)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:118:9)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:123:11)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at kg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:127:155)
+    at mg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:126:289)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:350)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:122:191)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:118:9)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+    at hg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:115:379)
+    at jg (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:117:207)
+    at Z (/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/node_modules/.pnpm/next@13.4.19_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-server.edge.production.min.js:124:91)
+
+[info] - info Generating static pages (4/4)
+
+[info] 
+> Export encountered errors on following paths:
+	/page: /
+
+[debug] [2023-10-16T02:56:55.323Z] Error: ENOENT: no such file or directory, open '/home/hakim/Documents/Next.jsApps/palm-ai-summarizer/.next/export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-16T02:59:54.803Z] ----------------------------------------------------------------------
+[debug] [2023-10-16T02:59:54.805Z] Command:       /home/hakim/.nvm/versions/node/v18.12.1/bin/node /home/hakim/.nvm/versions/node/v18.12.1/bin/firebase deploy
+[debug] [2023-10-16T02:59:54.806Z] CLI Version:   12.7.0
+[debug] [2023-10-16T02:59:54.806Z] Platform:      linux
+[debug] [2023-10-16T02:59:54.806Z] Node Version:  v18.12.1
+[debug] [2023-10-16T02:59:54.807Z] Time:          Sun Oct 15 2023 22:59:54 GMT-0400 (Eastern Daylight Time)
+[debug] [2023-10-16T02:59:54.807Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-16T02:59:54.901Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-16T02:59:54.902Z] > authorizing via signed-in user (hakimbouabdellah02@gmail.com)
+[debug] [2023-10-16T02:59:54.903Z] [iam] checking project palm-ai-summarizer-6f2b5 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-16T02:59:54.906Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions [none]
+[debug] [2023-10-16T02:59:54.907Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions x-goog-quota-user=projects/palm-ai-summarizer-6f2b5
+[debug] [2023-10-16T02:59:54.907Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-16T02:59:55.280Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions 200
+[debug] [2023-10-16T02:59:55.281Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/palm-ai-summarizer-6f2b5:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-16T02:59:55.283Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5 [none]
+[debug] [2023-10-16T02:59:55.818Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/palm-ai-summarizer-6f2b5 200
