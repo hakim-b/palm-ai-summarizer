@@ -1,6 +1,6 @@
 "use client";
 
-import { Clipboard, UploadCloud, Trash, Loader2 } from "lucide-react";
+import { ClipboardPaste, UploadCloud, Trash, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
@@ -145,22 +145,32 @@ function Home() {
                             onChange={handleFileChange}
                           />
                         </Button>
-                        <Button
-                          variant={"outline"}
-                          type="button"
-                          className="py-8 px-3"
-                          onClick={() => {
-                            navigator.clipboard
-                              .readText()
-                              .then((pastedText) => {
-                                setNewText(pastedText);
-                                form.setValue("text", pastedText);
-                              });
-                          }}
+                        <If
+                          isTrue={
+                            "Clipboard" in window &&
+                            "readText" in Clipboard.prototype
+                          }
                         >
-                          <Clipboard color="#1c9b4d" className="h-10 w-10" />
-                          Paste Text
-                        </Button>
+                          <Button
+                            variant={"outline"}
+                            type="button"
+                            className="py-8 px-3"
+                            onClick={() => {
+                              navigator.clipboard
+                                .readText()
+                                .then((pastedText) => {
+                                  setNewText(pastedText);
+                                  form.setValue("text", pastedText);
+                                });
+                            }}
+                          >
+                            <ClipboardPaste
+                              color="#1c9b4d"
+                              className="h-10 w-10"
+                            />
+                            Paste Text
+                          </Button>
+                        </If>
                       </div>
                     </If>
                   </div>
@@ -210,10 +220,9 @@ function Home() {
                               rows={25}
                               cols={60}
                               {...field}
-                              className="border-none outline-none resize-none p-8"
+                              className="border-none outline-none resize-none p-8 text-base"
                               value={newText}
                               onChange={handleTextAreaChange}
-                              style={{ fontSize: "16px" }}
                             />
                           </FormControl>
                           <FormMessage className="p-2" />
@@ -221,24 +230,34 @@ function Home() {
                       )}
                     />
                     <If isTrue={!form.watch("text") || newText.length === 0}>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <Button
-                          variant={"outline"}
-                          type="button"
-                          className="py-8 px-3"
-                          onClick={() => {
-                            navigator.clipboard
-                              .readText()
-                              .then((pastedText) => {
-                                setNewText(pastedText);
-                                form.setValue("text", pastedText);
-                              });
-                          }}
-                        >
-                          <Clipboard color="#1c9b4d" className="h-10 w-10" />
-                          Paste Text
-                        </Button>
-                      </div>
+                      <If
+                        isTrue={
+                          "Clipboard" in window &&
+                          "readText" in Clipboard.prototype
+                        }
+                      >
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                          <Button
+                            variant={"outline"}
+                            type="button"
+                            className="py-8 px-3"
+                            onClick={() => {
+                              navigator.clipboard
+                                .readText()
+                                .then((pastedText) => {
+                                  setNewText(pastedText);
+                                  form.setValue("text", pastedText);
+                                });
+                            }}
+                          >
+                            <ClipboardPaste
+                              color="#1c9b4d"
+                              className="h-10 w-10"
+                            />
+                            Paste Text
+                          </Button>
+                        </div>
+                      </If>
                     </If>
                   </div>
                   <div className="flex justify-between mt-5">
