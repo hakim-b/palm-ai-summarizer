@@ -150,8 +150,8 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={() => {
-                            readText().then((pastedText) => {
+                          onClick={ async () => {
+                            await readText().then((pastedText) => {
                               setNewText(pastedText);
                               form.setValue("text", pastedText);
                             });
@@ -227,8 +227,8 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={() => {
-                            readText().then((pastedText) => {
+                          onClick={ async () => {
+                            await readText().then((pastedText) => {
                               setNewText(pastedText);
                               form.setValue("text", pastedText);
                             });
