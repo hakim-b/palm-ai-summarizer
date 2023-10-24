@@ -26,7 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
 import { Summary } from "@/components/summary";
 import { wordCount } from "@/lib/utils";
-import { readText } from "clipboard-polyfill";
+import * as clipboard from "clipboard-polyfill";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -151,7 +151,7 @@ function Home() {
                           type="button"
                           className="py-8 px-3"
                           onClick={() => {
-                            readText().then((pastedText) => {
+                            clipboard.readText().then((pastedText) => {
                               setNewText(pastedText);
                               form.setValue("text", pastedText);
                             });
@@ -228,7 +228,7 @@ function Home() {
                           type="button"
                           className="py-8 px-3"
                           onClick={() => {
-                            readText().then((pastedText) => {
+                            clipboard.readText().then((pastedText) => {
                               setNewText(pastedText);
                               form.setValue("text", pastedText);
                             });
