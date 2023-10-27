@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "PaLM AI Text Summarizer",
   description: "Built using Next.js, Shadcn UI and Firebase",
+  keywords: ["PalM", "PaLM 2", "PaLM AI", "AI Summarizer", "Text Summarizer"],
 };
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
