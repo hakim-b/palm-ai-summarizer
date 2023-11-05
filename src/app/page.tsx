@@ -26,7 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
 import { Summary } from "@/components/summary";
 import { wordCount } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { readText } from "clipboard-polyfill";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -43,8 +43,6 @@ function Home() {
   const [isLoading, toggleLoading] = useBoolToggle(false);
 
   const medBreakpoint = useMediaQuery("(max-width: 925px)");
-
-  const { toast } = useToast();
 
   const onSubmit = async (data: FormValues) => {
     toggleLoading();
@@ -152,19 +150,11 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={() => {
-                            navigator.clipboard
-                              .readText()
-                              .then((pastedText) => {
-                                setNewText(pastedText);
-                                form.setValue("text", pastedText);
-                              })
-                              .catch(() => {
-                                toast({
-                                  variant: "destructive",
-                                  description: `Firefox only supports reading the clipboard in browser extensions, using the "clipboardRead" extension permission.`,
-                                });
-                              });
+                          onClick={async () => {
+                            await readText().then((pastedText) => {
+                              setNewText(pastedText);
+                              form.setValue("text", pastedText);
+                            });
                           }}
                         >
                           <ClipboardPaste
@@ -237,19 +227,11 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={() => {
-                            navigator.clipboard
-                              .readText()
-                              .then((pastedText) => {
-                                setNewText(pastedText);
-                                form.setValue("text", pastedText);
-                              })
-                              .catch(() => {
-                                toast({
-                                  variant: "destructive",
-                                  description: `Firefox only supports reading the clipboard in browser extensions, using the "clipboardRead" extension permission.`,
-                                });
-                              });
+                          onClick={async () => {
+                            await readText().then((pastedText) => {
+                              setNewText(pastedText);
+                              form.setValue("text", pastedText);
+                            });
                           }}
                         >
                           <ClipboardPaste
