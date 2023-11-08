@@ -87,6 +87,13 @@ function Home() {
     }
   };
 
+  const pasteText = async () => {
+    await readText().then((pastedText) => {
+      setNewText(pastedText);
+      form.setValue("text", pastedText);
+    });
+  };
+
   return (
     <>
       <Navbar />
@@ -150,12 +157,7 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={async () => {
-                            await readText().then((pastedText) => {
-                              setNewText(pastedText);
-                              form.setValue("text", pastedText);
-                            });
-                          }}
+                          onClick={pasteText}
                         >
                           <ClipboardPaste
                             color="#1c9b4d"
@@ -227,12 +229,7 @@ function Home() {
                           variant={"outline"}
                           type="button"
                           className="py-8 px-3"
-                          onClick={async () => {
-                            await readText().then((pastedText) => {
-                              setNewText(pastedText);
-                              form.setValue("text", pastedText);
-                            });
-                          }}
+                          onClick={pasteText}
                         >
                           <ClipboardPaste
                             color="#1c9b4d"
