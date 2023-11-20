@@ -26,7 +26,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
 import { Summary } from "@/components/summary";
 import { wordCount } from "@/lib/utils";
-import { readText } from "clipboard-polyfill";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
@@ -87,8 +86,8 @@ function Home() {
     }
   };
 
-  const pasteText = async () => {
-    await readText().then((pastedText) => {
+  const pasteText = () => {
+    navigator.clipboard.readText().then((pastedText) => {
       setNewText(pastedText);
       form.setValue("text", pastedText);
     });
