@@ -46,7 +46,7 @@ function Home() {
   const onSubmit = async (data: FormValues) => {
     toggleLoading();
 
-    const newDocRef = await addDoc(collection(db, "text_documents"), {
+    const newDocRef = await addDoc(collection(db, "articles"), {
       text: data.text,
     });
 
