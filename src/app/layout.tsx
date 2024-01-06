@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "PaLM AI Text Summarizer",
   description: "Built using Next.js, Shadcn UI and Firebase",
   keywords: ["PalM", "PaLM 2", "PaLM AI", "AI Summarizer", "Text Summarizer"],
+  openGraph: {
+    url: "/src/app/opengraph-image.png",
+  },
 };
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
