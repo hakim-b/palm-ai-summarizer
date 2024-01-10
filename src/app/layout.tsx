@@ -7,7 +7,7 @@ import ogImg from "./opengraph-image.png";
 
 export const metadata: Metadata = {
   title: "PaLM AI Text Summarizer",
-  description: "Built using Next.js, Shadcn UI and Firebase",
+  description: "Summarize your text using PaLM!",
   metadataBase: new URL("https://palm-ai-summarizer-6f2b5.web.app/"),
   keywords: ["PalM", "PaLM 2", "PaLM AI", "AI Summarizer", "Text Summarizer"],
   openGraph: {
@@ -18,7 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
+const openSans = Open_Sans({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+});
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -26,8 +30,8 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={openSans.className}>
+    <html lang="en" suppressHydrationWarning className={`${openSans.variable}`}>
+      <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
