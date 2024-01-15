@@ -1,3 +1,5 @@
+"use client";
+
 import { Copy } from "lucide-react";
 import { useClipboard, If } from "react-haiku";
 import { Button } from "./ui/button";
