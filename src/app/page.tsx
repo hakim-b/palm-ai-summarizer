@@ -119,7 +119,7 @@ function Home() {
                               rows={25}
                               cols={25}
                               {...field}
-                              className="border-none outline-none resize-none p-8 font-[16px]"
+                              className="resize-none border-none p-8 font-[16px] outline-none"
                               value={newText}
                               onChange={handleTextAreaChange}
                             />
@@ -129,11 +129,11 @@ function Home() {
                       )}
                     />
                     <If isTrue={!form.watch("text") || newText.length === 0}>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
                         <Button
                           variant="outline"
                           type="button"
-                          className="flex items-center justify-center py-8 px-3"
+                          className="flex items-center justify-center px-3 py-8"
                         >
                           <Label htmlFor="wordDoc">
                             <span className="flex items-center">
@@ -155,7 +155,7 @@ function Home() {
                         <Button
                           variant={"outline"}
                           type="button"
-                          className="py-8 px-3"
+                          className="px-3 py-8"
                           onClick={pasteText}
                         >
                           <ClipboardPaste
@@ -167,7 +167,7 @@ function Home() {
                       </div>
                     </If>
                   </div>
-                  <div className="flex justify-between mt-5">
+                  <div className="mt-5 flex justify-between">
                     <span className="p-3">{wordCount(newText)} Words</span>
                     <Button type="submit" disabled={isLoading}>
                       <Show>
@@ -183,7 +183,7 @@ function Home() {
               </Form>
             </TabsContent>
             <TabsContent value="summary">
-              <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
+              <div className="flex w-[590px] flex-col justify-between max-[925px]:w-full">
                 <Show>
                   <Show.When isTrue={isLoading}>
                     <ParagraphSkeleton />
@@ -198,7 +198,7 @@ function Home() {
         </Show.When>
         <Show.Else>
           <div className="flex justify-center">
-            <div className="mt-12 rounded-lg flex border w-fit shadow-2xl">
+            <div className="mt-12 flex w-fit rounded-lg border shadow-2xl">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="relative">
@@ -213,7 +213,7 @@ function Home() {
                               rows={25}
                               cols={60}
                               {...field}
-                              className="border-none outline-none resize-none p-8 text-base"
+                              className="resize-none border-none p-8 text-base outline-none"
                               value={newText}
                               onChange={handleTextAreaChange}
                             />
@@ -223,11 +223,11 @@ function Home() {
                       )}
                     />
                     <If isTrue={!form.watch("text") || newText.length === 0}>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
                         <Button
                           variant={"outline"}
                           type="button"
-                          className="py-8 px-3"
+                          className="px-3 py-8"
                           onClick={pasteText}
                         >
                           <ClipboardPaste
@@ -239,7 +239,7 @@ function Home() {
                       </div>
                     </If>
                   </div>
-                  <div className="flex justify-between mt-5">
+                  <div className="mt-5 flex justify-between">
                     <Show>
                       <Show.When
                         isTrue={!form.watch("text") || newText.length === 0}
@@ -284,7 +284,7 @@ function Home() {
                 </form>
               </Form>
               <Separator orientation="vertical" />
-              <div className="w-[590px] max-[925px]:w-full flex flex-col justify-between">
+              <div className="flex w-[590px] flex-col justify-between max-[925px]:w-full">
                 <Show>
                   <Show.When isTrue={isLoading}>
                     <ParagraphSkeleton />
@@ -299,7 +299,7 @@ function Home() {
         </Show.Else>
       </Show>
 
-      <div className="flex justify-center items-center mt-16">
+      <div className="mt-16 flex items-center justify-center">
         <Button
           variant="destructive"
           onClick={() => {
