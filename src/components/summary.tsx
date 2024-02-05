@@ -1,7 +1,7 @@
 import { Copy } from "lucide-react";
 import { useClipboard, If } from "react-haiku";
 import { Button } from "./ui/button";
-import { wordCount } from "@/lib/utils";
+import { wordCount } from "~/lib/utils";
 
 type SummaryProps = {
   content: string;

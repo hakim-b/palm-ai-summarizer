@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
-import { ThemeProvider } from "@/context/theme-provider";
+import { ThemeProvider } from "~/context/theme-provider";
 import { ReactNode } from "react";
 import ogImg from "./opengraph-image.png";
 

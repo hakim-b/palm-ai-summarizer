@@ -1,8 +1,8 @@
 "use client";
 
 import { ClipboardPaste, UploadCloud, Trash, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,20 +12,20 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
+} from "~/components/ui/form";
+import { Separator } from "~/components/ui/separator";
 import { ChangeEvent, useState } from "react";
 import { If, Show, useBoolToggle, useMediaQuery } from "react-haiku";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/input";
 import mammoth from "mammoth";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
-import { db } from "@/firebase.config";
-import Navbar from "@/components/navbar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ParagraphSkeleton } from "@/components/paragraph-skeleton";
-import { Summary } from "@/components/summary";
-import { wordCount } from "@/lib/utils";
+import { db } from "~/firebase.config";
+import Navbar from "~/components/navbar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { ParagraphSkeleton } from "~/components/paragraph-skeleton";
+import { Summary } from "~/components/summary";
+import { wordCount } from "~/lib/utils";
 
 const formSchema = z.object({
   text: z.string().min(1, { message: "Please enter some text to summarize" }),
