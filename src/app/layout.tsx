@@ -4,6 +4,7 @@ import { Open_Sans } from "next/font/google";
 import { ThemeProvider } from "~/context/theme-provider";
 import { ReactNode } from "react";
 import ogImg from "./opengraph-image.png";
+import { cn } from "~/lib/utils";
 
 export const metadata: Metadata = {
   title: "PaLM AI Text Summarizer",
@@ -30,9 +31,19 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${openSans.variable}`}>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          openSans.variable,
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>
